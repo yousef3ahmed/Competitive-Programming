@@ -1,0 +1,56 @@
+vector< ll >adj[N] ;
+
+// this Traverse the tree  and do any thing you want when Traverse  ;
+// kill nodes ^_^ ;
+
+void dfs( int node , int par  ){
+ 
+	for(auto u : adj[node]){
+		if( u == par ) continue ;
+		dfs( u , node  ) ;
+	}
+ 
+}
+
+
+
+void _clr( int n ){
+    for( int i=0 ; i<=n ; i++ ) adj[i].clear() ;
+}
+
+
+struct item{
+	ll u , dis ;
+	item( ll u , ll dis ){
+		this->dis = dis ;
+		this->u = u ;
+	}
+};
+
+
+ll bfs( vector< vector<int> >&adj , int n ){
+	queue< item > q; 
+	q.push( item( 1 , 0 ) ) ;
+	int vis[n+1] ;
+	memset( vis , 0 , sizeof( vis ) ) ;
+	vis[1] = 1 ;
+
+	while (!q.empty()) {
+		
+		item top = q.front() ;
+		q.pop() ;
+		if( top.u == n ){
+			return top.dis ;
+		}
+
+		for(auto u : adj[top.u]){
+			if( !vis[u] ){
+				vis[u] = 1 ;
+				q.push( item( u , top.dis+1 ) ) ;
+			}
+		}
+	}
+
+	return INF ;
+	
+}
