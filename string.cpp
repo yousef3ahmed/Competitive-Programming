@@ -4,8 +4,8 @@ int paild( string &s ){
 		if( s[l] != s[r] ) return 1 ;
  
 		l++ ;
-		r-- ;
-	}
- 
+	 	r-- ;
+	 }
+  
 	return 0 ;
 }
