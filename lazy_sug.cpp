@@ -85,26 +85,101 @@ private:
 		update( ind*2+1 , m+1 , right , l , r, val  );
 		    
 		 tree[ind] = item().merge( tree[ind*2] , tree[ind*2+1] ) ;
-	 
-	 }
+	}
+
+	int find_first_index( int ind , int l , int r , ll val, const function<bool( item a , ll com )> &f) {
+		
+		if( l == r )
+			return l ;
+		
+		push( ind , l , r ) ;
+		int mid = (l+r)/2;		
+		if(  f( tree[ ind*2 ] , val ) )
+			return find_first_index(  ind*2 ,   l ,  mid ,  val , f ) ;
+		else
+			return find_first_index(  ind*2+1 ,  mid+1 , r ,  val , f ) ;
+ 	}
+
+	int find_first( int ind , int left , int right , int l , int r , ll val , const function<bool( item a , ll com )> &f ){
+		if( left >=l && right<=r  ){
+			push( ind , left , right ) ;
+			if( !f( tree[ind] , val ) ) {
+				return -1 ;
+			}
+			return find_first_index( ind , left , right , val , f ) ;
+		}
+		
+		push( ind , left , right ) ;
+		int mid = ( left + right ) / 2 ;
+		int res = -1 ;
+		if(  l <= mid )
+			res = find_first( ind*2 , left , mid , l , r, val , f );
+		
+		if( res == -1 && r > mid )
+			res = find_first( ind*2+1 , mid+1 , right , l , r , val , f  ) ;
+		
+		return res ;
+	}
+
+	
+	int find_last_index( int ind , int l , int r, ll val , const function<bool( item a , ll com )> &f  ){
+		if( l == r )
+			return l ;
+
+		push( ind , l , r ) ;
+		int mid = ( l + r ) / 2 ;
+		if( f( tree[ ind*2 + 1 ] , val ) )
+			return find_last_index( ind*2+1 , mid+1 , r ,  val , f ) ;
+		else
+			return find_last_index( ind*2 , l , mid , val , f ) ;
+	}
+
+	int find_last( int ind , int left , int right , int l , int r , ll val , const function<bool( item a , ll com )> &f ){
+		if( left >=l && right<=r  ){
+			push( ind , left , right ) ;
+			if( !f( tree[ind] , val ) ) {
+				return -1 ;
+			}
+			return find_last_index( ind , left , right , val , f ) ;
+		}
+
+		push( ind , left , right ) ;
+		int mid = ( left + right ) / 2 ;
+		int res = -1 ;
+		if(  r > mid )
+			res = find_last( ind*2+1 ,  mid+1 , right , l , r, val , f );
+		
+		if( res == -1 && l <= mid )
+			res = find_last( ind*2 , left , mid , l , r , val , f  ) ;
+		
+		return res ;
+	}
 
 
 public:
 
+	// 0-base 
 	void init( vector< ll >&a  ){
 		n =  a.size();
 		tree.resize( n*9 );
 		build( a , 1 , 0 , n-1 ) ;
 	}
 	
-	// 0-base 
 	void update( int l , int r , ll val ){
 	 	return update( 1 , 0 , n-1 , l , r , val ) ;
 	}
-    // 0-base
+
  	item query( int l , int r   ){
 	 	return query( 1 , 0 , n-1 , l , r ) ;
 	}
-	 
 	
+	int find_first( int l , int r , ll val , const function<bool( item a , ll com )> &f ){
+		return find_first( 1 , 0 , n - 1 , l , r , val , f )  ;
+	}	
+
+	int find_last( int l , int r , ll val , const function<bool( item a , ll com )> &f ){
+		return find_last( 1 , 0 , n-1 , l , r , val , f ) ;
+	} 
+
+
 }sug;

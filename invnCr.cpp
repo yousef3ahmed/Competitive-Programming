@@ -115,3 +115,23 @@ ll nCr( ll n ,  ll r ){
 	return ( 1LL*(n*nCr( n-1 , r-1 ) )/r); 
 }
 
+
+//  catalan ( ( )( ) ...
+ll catalan = comp.nCr(2 * n , n) - comp.nCr(2 * n , n + 1);
+
+
+
+// A Derangement is a permutation of n elements, such that no element appears in its original position
+ll dp[N] ;
+ll countDer(ll n)
+{
+  // Base cases
+  if (n == 1) return 0;
+  if (n == 2) return 1;
+ 
+  ll &ret = dp[ n ] ;
+  if( ~ret ) return ret ;
+ 
+  // countDer(n) = (n-1)[countDer(n-1) + der(n-2)]
+  return  ret =  mul( (n - 1) , add( countDer(n - 1)  ,  countDer(n - 2) )  )  ;
+}

@@ -24,23 +24,12 @@ struct DSU{
 		
 			root[b] = a;
 			sz[a]+=sz[b];
-
+			forests-- ;
 			return 1 ;
 		}
 
 		return 0 ;
 	}
 
-	ll MST( vector< pair<  ll , pair< int , int > > >&adj ){
-		sort( adj.begin() , adj.end() ) ;
-		ll ans = 0 ;
-		for(int i=0 ; i<adj.size() ; i++){
-			if( union_sets( adj[i].second.first , adj[i].second.second ) ){
-				ans+=adj[i].first;
-			}
-		}
-
-		return ans ;
-	}
 
 };

@@ -4,10 +4,6 @@ struct LCA{
 	vector< vector< int > >up ;
 	int time = 0 ;
 
-
-	// this Traverse the tree  and do any thing you want when Traverse  ;
-	// kill nodes ^_^ ;
-
 	void dfs( int node , int par  , int deep , vector< vector<int> >&adj ){
 		
 		d[node] = deep ;

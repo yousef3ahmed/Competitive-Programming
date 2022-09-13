@@ -105,7 +105,7 @@ struct fire  {
 		Me[0].addBack( c ) ;
 		Me[1].addBack( c ) ;
 	}
- 
+	// 0 base
 	pair< ll , ll > range( int l , int r ){
 		return{ Me[0].range( l , r ) , Me[1].range( l , r ) } ;
 	}

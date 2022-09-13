@@ -1,13 +1,12 @@
 int low[N] , dfs[N] , instack[N]  , id[N]  , ndfs =  1; 
 vector<ll>adj[N] ;
 vector< vector<ll> > coms ;
- 
 stack<int>stk; 
  
- 
- 
- 
+// find SSC
+
 void tarjan( int node ){
+
 	low[node] = dfs[node] =  ndfs++ ;
 	instack[ node ] = 1 ;
 	stk.push(node) ;

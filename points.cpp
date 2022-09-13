@@ -3,7 +3,7 @@ vector<ll>adj[N] ;
 int point[N] ;
 int root = 0 ;
  
- 
+ //  articulation point (or cut vertex) if removing it (and edges through it) disconnects the graph.
  
  
 void tarjan( int node , int par ){
@@ -24,7 +24,6 @@ void tarjan( int node , int par ){
 				}
 			}
 			
-			
 		}else if( par != i  ){
 			low[node] = min( low[node] , dfs[i] ) ;
 		}
@@ -38,6 +37,5 @@ void init(){
 	memset( low , -1 , sizeof(low) ) ;
 	memset( point , 0 , sizeof( point ) );
 	ndfs = 1 ;
-	
 }
 
