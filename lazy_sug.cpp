@@ -59,8 +59,8 @@ private:
 	item query(int ind , int left , int right , int l , int r  ){
 		
 		if( left > r || right < l ) return item() ;
-		if( left >=l && right<=r  ) return tree[ind] ;
 		push( ind , left , right ) ;
+		if( left >=l && right<=r  ) return tree[ind] ;
 		int m = (left+right)/2;
 		item op1 = query( ind*2 , left , m , l ,r   ) ;
 		item op2 = query( ind*2+1 ,m+1 , right , l ,r  ) ;

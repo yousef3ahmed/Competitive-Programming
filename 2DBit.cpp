@@ -4,7 +4,7 @@ private:
 	// query 1-index ;
 	// pass vector 0-index ;
 
-    vector<vector<ll>> ft;
+    vector<vector<int>> ft;
 
 public:
     // Function to get least significant bit; 
@@ -12,8 +12,8 @@ public:
         return x & (-x);
     }
 
-    ll query(int x, int y){
-        ll sum = 0;
+    int query(int x, int y){
+        int sum = 0;
         for(int x_ = x; x_ > 0; x_ = x_ - LSB(x_)){
             for(int y_ = y; y_ > 0; y_ = y_ - LSB(y_)){
                 sum = sum + ft[x_][y_];
@@ -22,11 +22,11 @@ public:
         return sum;
     }
 
-    ll query(int x1, int y1, int x2, int y2){
+    int query(int x1, int y1, int x2, int y2){
         return (query(x2, y2) - query(x1 - 1, y2) - query(x2, y1 - 1) + query(x1 - 1, y1 - 1));
     }
 
-    void update(int x, int y, ll value){
+    void update(int x, int y, int value){
         for(int x_ = x; x_ < ft.size(); x_ = x_ + LSB(x_)){
             for(int y_ = y; y_ < ft[0].size(); y_ = y_ + LSB(y_)){
                 ft[x_][y_] += value;
@@ -34,14 +34,14 @@ public:
         }
     }
 
-    void init( vector< vector<ll> > &matrix){
+    void init( vector< vector<int> > &matrix){
         int n = matrix.size();
         int m = matrix[0].size();
 
-        ft.assign(m + 1, vector<ll> (n + 1, 0));
+        ft.assign(n + 1, vector<int> (m + 1, 0));
 
-        for(int i = 0; i < m; ++i){
-            for(int j = 0; j < n; ++j)
+        for(int i = 0; i < n; ++i){
+            for(int j = 0; j < m; ++j)
                 update(i + 1, j + 1, matrix[i][j]);
         }
     }

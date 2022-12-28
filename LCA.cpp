@@ -55,6 +55,56 @@ struct LCA{
 		dfs( 0 , 0 , 0 , adj ) ;
 	}
 
-	
-	
 };
+
+
+// find k-Anc or min or mx ( from root to node ) ;
+
+ll dp[20][ N ]  , cost[N] , Mincost[20][N] , n ;
+vector< int >adj[ N ];
+
+void dfs( int nd , int pr ){
+	dp[0][nd] = pr ;
+	Mincost[0][nd] = cost[nd];
+
+	for( auto u : adj[nd] ){
+		if( u == pr ) 
+			continue;
+		dfs( u , nd ) ;
+	}
+}
+
+
+int kth_anc( int nd , int k ){	
+	for( int i = 0 ; i < 20 ; i++ ){
+		if( k & ( 1 << i ) )
+			nd = dp[i][nd] ;
+	}
+	return nd ;
+}
+
+ll Mn( int u  ){
+	
+	ll ans = INF ;
+	for( int i = 0 ; i<20  ; i++ )
+		ans = min( ans , Mincost[i][u] ) ;
+
+	return ans; 
+}
+
+void goLca(  ){
+	
+	dfs( 0 , 0 , 0 ) ;
+	
+	for( int i = 1 ; i < 20 ; i++ ){
+		for( int u = 0 ; u < n ; u++ ){
+			
+			dp[ i ][ u ] = dp[ i - 1 ][ dp[ i - 1 ][u] ] ;
+			
+			Mincost[i][u] = min( Mincost[i][u] ,
+								 Mincost[ i - 1 ][  dp[ i - 1 ][u] ] ) ;
+		}
+	}
+}
+
+void init( ){ for( int i = 0 ; i<n ; i++ ) adj[i].clear() ; }

@@ -75,7 +75,7 @@ struct AVL{
 		// Perform rotation
 		y->left = x;
 		x->right = t2;
-		updeep(x) ;
+		updeep(x) ;	
 		updeep(y) ;
 		upsize(x) ;
 		upsize(y) ;

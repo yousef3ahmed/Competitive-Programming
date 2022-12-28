@@ -63,3 +63,16 @@ int phi_1_to_n(int n) {
     return phi[n];
     
 }
+
+void primeFactors(int n)
+{
+    int c=2;
+    while(n>1)
+    {
+        if(n%c==0){
+        cout<<c<<" ";
+        n/=c;
+        }
+        else c++;
+    }
+}
