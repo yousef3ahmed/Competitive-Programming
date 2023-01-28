@@ -1,5 +1,3 @@
-
-
 // query 0 - index ;
 // pass vector 0 - index ;
 
@@ -12,10 +10,10 @@ class SegmentTree2D{
 public:
     SegmentTree2D(std::vector<std::vector<int>> &matrix){
         mat = matrix;
-        m = mat.size() + 1;
-        n = mat[0].size() + 1;
+        m = mat.size() ;
+        n = mat[0].size();
         // initialize st
-        st.assign(m*2 + m*2, std::vector<int> ( n*2 + n*2  , 1e9));
+        st.assign(m*2 + m*2, std::vector<int> ( n*2 + n*2  , -1e9));
         build2D(1, 0, m - 1);
     }
 
@@ -33,7 +31,7 @@ public:
         // 2*index + 1 will be right child
         build(segTree, ar, 2*index + 1, mid + 1, R);
         // finally, add the values from two children into the parent
-        segTree[index] = min( segTree[2*index]  ,segTree[2*index + 1] ) ;
+        segTree[index] = max( segTree[2*index]  ,segTree[2*index + 1] ) ;
         }
     }
 
@@ -54,7 +52,7 @@ public:
             return right;
         if(right == -1)
             return left;
-        return  min( left  , right ) ;
+        return  max( left  , right ) ;
     }
 
     void build2D(int index, int L, int R){
@@ -72,7 +70,7 @@ public:
             
             // merge left and right children
             for(int i = 0; i < st[index].size(); ++i)
-                st[index][i] = min( st[2*index][i] , st[2*index + 1][i] );
+                st[index][i] = max( st[2*index][i] , st[2*index + 1][i] );
         }
     }
 
@@ -95,7 +93,7 @@ public:
         if(right == -1)
             return left;
         
-        return min( left , right );
+        return max( left , right );
     }
 
     // Main query function
