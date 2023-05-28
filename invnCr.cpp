@@ -63,6 +63,29 @@ struct combination{
 
 };
 
+
+// very importion infortions
+// stars and bars
+// (n+k-1) choose (k-1) if you can assgin 0 object to one
+// ( n - 1 ) choose ( k - 1 ) if at least one ;
+
+
+int andOperator(int a, int b) {
+ 
+    // ShiftCount variables counts till which bit every value will convert to 0
+      int shiftcount = 0;
+    //Iterate through every bit of a and b simultaneously
+      //If a == b then we know that beyond that the and value will remain constant
+      while(a != b and a > 0) {
+          shiftcount++;
+          a = a >> 1;
+          b = b >> 1;
+    }
+      return int64_t(a << shiftcount);
+}
+ 
+
+
 ll nCr(int n, int r) {
  
     long long p = 1, k = 1;
