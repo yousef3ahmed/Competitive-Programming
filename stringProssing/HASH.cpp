@@ -30,7 +30,8 @@ ll Div(ll x , ll y , ll MOD) {
 }
  
 ll pw[2][ N ] , inv[2][ N ] ; 
-void init(  ){
+
+void preprocess(  ){
 	
 	ll mod = 1e9 + 7 , base = 31 ;
 	pw[ 0 ][ 0 ] = 1 ;
@@ -38,7 +39,6 @@ void init(  ){
 	for( int i = 1 ; i< N ; i++ ) pw[ 0 ][ i ] = mul( pw[ 0 ][i-1] , base , mod ) , inv[ 0 ][ i ] = modinv( pw[ 0 ][i] , mod ) ;
  
 	mod = 1e9 + 9 , base = 43 ;
- 
 	pw[ 1 ][ 0 ] = 1 ;
 	inv[ 1 ][ 0 ] = modinv( pw[1][0] , mod ) ; 
 	for( int i = 1 ; i< N ; i++ ) pw[ 1 ][ i ] = mul( pw[ 1 ][i-1] , base , mod ) , inv[ 1 ][ i ] = modinv( pw[ 1 ][i] , mod ) ;
@@ -47,72 +47,48 @@ void init(  ){
  
 struct MASH{
  
-	ll  mod , base ;
-	vector< ll >hs ;
-	int n , id ;
- 
-	int get( char c ){
-		if( c == '$' ) return 29; 
-		int ind = (int)( c - 'a' ) ;
-		ind++ ;
-		return ind ;
+	int mod = 1e9 + 7 , base = 31 , n ;
+	vector< int >hs[2];
+  vector< int > arr ;
+
+	void build( ){
+
+    mod = 1e9 + 7 , base = 31;
+    hs[0][0] = arr[0] ;
+		for( int i = 1 ; i<n ; i++ ){
+      hs[0][i] = add( hs[0][i-1] , mul( pw[ 0 ][ i  ] , arr[i] , mod ) , mod ) ;
+    }
+
+    mod = 1e9 + 9 , base = 43;
+    hs[1][0] = arr[0] ;
+		for( int i = 1 ; i<n ; i++ ){
+      hs[1][i] = add( hs[1][i-1] , mul( pw[1][i] , arr[i] , mod ) , mod ) ;
+    }
+
 	}
  
- 
-	void addBack( char c ){
-		int sz = hs.size() ;	
-		if( sz )
-			 hs.push_back( add( hs[ sz - 1 ] , mul( pw[ id ][ sz  ] , get( c ) , mod ) , mod ) )  ;
-		else
-			hs.push_back( get( c ) ) ;
+	pair< int , int > range( int l , int r ){
+		if( l == 0 ) return { hs[0][r] , hs[1][r] } ;
+
+    pair< int , int >ret ;
+
+    mod = 1e9 + 7 , base = 31;
+    ret.first = mul( sub( hs[0][r] , hs[0][l-1] , mod ) , inv[0][ l ] , mod );
+
+    mod = 1e9 + 9 , base = 43;
+    ret.second = mul( sub( hs[1][r] , hs[1][l-1] , mod ) , inv[1][ l ] , mod );
+
+		return ret ;
 	}
  
- 
-	void build( string &s ){
-		for( int i = 0 ; i<n ; i++ ) addBack( s[i] ) ;
+	void init( vector< int >&a ){
+		n = a.size(); 
+    arr = a ;
+		hs[0].clear() ;
+    hs[0].resize( n );
+    hs[1].clear() ;
+    hs[1].resize( n );
+		build( );
 	}
  
-	ll range( int l , int r ){
-		if( l == 0 ) return hs[ r ] ;
-		return mul( sub( hs[r] , hs[l-1] , mod ) , inv[ id ][ l ] , mod ) ;
-	}
- 
-	void init( string &cpy , int ID , ll MOD , ll BASE ){
-		mod = MOD ;
-		base = BASE ;
-		id = ID ;
-		n = cpy.size(); 
-		hs.clear() ;
-		build( cpy ) ;
-	}
- 
-	int size(){
-		return hs.size() ;
-	}
- 
-};
- 
-struct fire  {
- 
-	MASH Me[2] ;
- 
-	void init( string &s ){
-		Me[0].init( s , 0 ,  1e9+7 , 31 ) ;
-		Me[1].init( s , 1 ,  1e9+9 , 43 ) ;
-	}
- 
-	void push_back( char c ){
-		Me[0].addBack( c ) ;
-		Me[1].addBack( c ) ;
-	}
-	// 0 base
-	pair< ll , ll > range( int l , int r ){
-		return{ Me[0].range( l , r ) , Me[1].range( l , r ) } ;
-	}
- 
-	int size(  ){
-		return  Me[0].size() ;
-	}
- 
-}hs[ 2 ];
- 
+}hs;
