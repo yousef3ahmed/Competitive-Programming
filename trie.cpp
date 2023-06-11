@@ -1,6 +1,6 @@
 struct trie{
 	trie*  child[30] ;
-	bool leaf ;
+	int leaf ;
 	trie(){
 		memset( child , 0 , sizeof(child) );
 		leaf = 0 ;
