@@ -1,0 +1,64 @@
+// __builtin_popcount() ; next_permutation
+
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
+#pragma GCC target("avx2")
+
+auto it = ls.begin() ;
+advance( it , 1 )  ;
+
+#define next(it) (++it, *it--)
+#define prev(it) (--it, *it++)
+#define curr(it) (*it)
+
+
+struct item{
+	ll sum , pre ,suf , mxsum , lazy ;
+	item( ){
+		sum = suf = mxsum = pre = 0 ;
+		lazy = 0 ;
+	}
+ 
+	item( ll v ){
+		sum = suf = mxsum = pre = v ;
+		lazy = 0 ;
+	} 
+ 
+	item merge( item a , item b ){
+		item ret ;
+		ret.sum  = a.sum + b.sum ;
+		ret.pre = max(a.pre ,a.sum+b.pre) ;
+		ret.suf = max(b.suf ,b.sum+a.suf) ;
+		ret.mxsum = max({a.mxsum ,b.mxsum , a.suf+b.pre}) ;
+		return ret ;
+	}
+};
+ 
+struct item{
+    ll sum , mnprf ,mnsuf , mxprf , mxsuf , mx , mn  ;
+    item( ){
+        sum = mnprf = mnsuf = mxprf = mxsuf = mx = mn = 0 ;
+    }
+
+    item( ll v ){
+        sum = v ;
+        mx = mxprf = mxsuf = max( 0ll , v ) ;
+        mn = mnprf = mnsuf = min( 0ll , v ) ;
+    }
+
+    item merge( item a , item b ){
+        item ret ;
+        ret.sum  = a.sum + b.sum ;
+
+        ret.mxprf = max( a.sum + b.mxprf , a.mxprf );
+        ret.mnprf = min( a.sum + b.mnprf , a.mnprf ) ;
+
+        ret.mxsuf = max( b.sum + a.mxsuf , b.mxsuf ) ;
+        ret.mnsuf = min( b.sum + a.mnsuf , b.mnsuf ) ;
+
+        ret.mn = min( { a.mn, b.mn , a.mnsuf + b.mnprf } ) ;
+        ret.mx = max( { a.mx , b.mx , a.mxsuf + b.mxprf } ) ;
+
+        return ret ;
+    }
+};
