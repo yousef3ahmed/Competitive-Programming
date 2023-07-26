@@ -4,11 +4,11 @@ struct Trie{
 	
 	int creatNode(){
 		memset( nxt[ nNodes ] , -1 , sizeof( nxt[ nNodes ] ) ) ;
+		cnt[ nNodes ] = 0 ;
 		return nNodes++ ;
 	}
-	void init(  ){
-		nNodes = 0 ;
-		memset( cnt , 0 , sizeof( cnt ) ) ;
+  	void init(  ){
+      		nNodes = 0 ;
 		root  = creatNode() ;
 	}
 
