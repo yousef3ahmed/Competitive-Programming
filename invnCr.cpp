@@ -1,19 +1,30 @@
 
+void check( int &a , int &b ){
+    if( b < 0 ) b+=MOD ;
+    if( a < 0 ) a+=MOD ;
+    if( b > MOD ) b-=MOD ;
+    if( a > MOD ) a-=MOD ;
+}
+
 ll mul( ll a , ll b ){
+  	check( a , b );
 	return ( a*b )%MOD ;
 }
 
 ll add( ll a , ll b ){
+  	check( a , b );
 	a+=b;
 	if( a >= MOD ) a-=MOD ;
 	return a ;
 }
 
 ll sub( ll a , ll b ){
-	a-=b ;
+	check( a , b );
+  	a-=b ;
 	if( a < 0 ) a+=MOD ;	
 	return a ;
 }
+
 
 
 ll pw( ll n  , ll count  ){
