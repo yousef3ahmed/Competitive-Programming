@@ -77,7 +77,7 @@ struct combination{
 
 // very importion infortions
 // stars and bars
-// (n+k-1) choose (k-1) if you can assgin 0 object to one
+// (n+k-1) choose (k) if you can assgin 0 object to one
 // ( n - 1 ) choose ( k - 1 ) if at least one ;
 
 
