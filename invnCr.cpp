@@ -151,7 +151,7 @@ ll nCr( ll n ,  ll r ){
 
 
 //  catalan ( ( )( ) ...
-ll catalan = comp.nCr(2 * n , n) - comp.nCr(2 * n , n + 1);
+ll catalan = Div( com.nCr(2 * n , n) , n+1 );
 
 
 
