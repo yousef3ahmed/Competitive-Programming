@@ -1,3 +1,5 @@
+#!/bin/bash
+
 set -e
 g++-11 -std=c++17 code.cpp -o code
 g++-11 -std=c++17 gen.cpp -o gen
