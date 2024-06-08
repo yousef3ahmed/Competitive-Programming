@@ -1,3 +1,14 @@
+// make sure that the number of columns in the 1st matrix is equal to the rows in the 2nd matrix.
+/*
+    1 2       1 2       
+          x         --> 
+    3 4       3 4  
+
+
+    ---> from first one, than | from second one
+                              v
+*/
+
 ll Mul( ll a , ll b ){
     a%=MOD ;
     b%=MOD;
