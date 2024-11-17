@@ -1,35 +1,37 @@
-struct DSU{
-	vector< ll > sz , root ;
-	int forests = 0 ;
-	DSU(){}	
-	void init( int n ){
-		sz.resize( n+1 ) ;
-		root.resize( n+1 ) ;
-		for(int i=0 ; i<n+1 ; i++) sz[i] = 1 , root[i] = i ;
-		forests = n ;
-	}
-	
-	int find_set( ll node ){
-		if( root[node] == node ) return node ;
-		return root[node] = find_set( root[node] ) ;
-	}
+struct DSU {
+  vector<int> par, sz;
+  set<int> roots;
 
-	int union_sets(int a, int b) {
-		a = find_set(a);
-		b = find_set(b);
-		if (a != b) {
+  void init(int n) {
+    par.assign(n + 1, {});
+    iota(par.begin(), par.end(), 0);
+    roots = set<int>(par.begin(), par.end());
+    sz.assign(n + 1, 1);
+  }
 
-			if (sz[a] < sz[b])
-				swap(a, b);
-		
-			root[b] = a;
-			sz[a]+=sz[b];
-			forests-- ;
-			return 1 ;
-		}
+  int find(int u) {
+    while (u ^ par[u]) {
+      u = par[u];
+    }
+    return u;
+  }
 
-		return 0 ;
-	}
+  bool merge(int u, int v) {
+    u = find(u), v = find(v);
+    if (u == v) {
+      return false;
+    }
+    if (sz[u] < sz[v]) {
+      swap(u, v);
+    }
+    sz[u] += sz[v];
+    roots.erase(v);
+    par[v] = u;
+    return true;
+  }
 
+  int size(int u) {
+    return sz[find(u)];
+  }
 
 };
