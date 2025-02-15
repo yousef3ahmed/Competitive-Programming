@@ -76,3 +76,40 @@ void primeFactors(int n)
         else c++;
     }
 }
+
+const int N = 1e6 + 1;
+int sp[N];
+
+void sieve() {
+  for (int i = 2; i < N; ++i) {
+    if (sp[i])continue;
+    for (int j = i; j < N; j += i) {
+      sp[j] = i;
+    }
+  }
+}
+
+vector<pair<int, int>> primes;
+vector<int> factors;
+
+void solve(int i, int cur) {
+  if (i == primes.size()) {
+    factors.emplace_back(cur);
+    return;
+  }
+  for (int j = 0; j <= primes[i].second; ++j) {
+    solve(i + 1, cur);
+    cur *= primes[i].first;
+  }
+}
+
+void get(int x) {
+  primes.clear();
+  factors.clear();
+  while (x > 1) {
+    int p = sp[x], c = 0;
+    while (!(x % p))x /= p, ++c;
+    primes.emplace_back(p, c);
+  }
+  solve(0, 1);
+}
